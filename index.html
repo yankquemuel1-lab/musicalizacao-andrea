@@ -2232,10 +2232,10 @@
                             <label class="form__label" for="perfil">Você é:</label>
                             <select id="perfil" name="perfil" class="form__select">
                                 <option value="">Selecione</option>
-                                <option value="professora">Professora</option>
-                                <option value="mae">Mãe</option>
-                                <option value="educadora">Educadora</option>
-                                <option value="arte-educadora">Arte-educadora</option>
+                                <option value="professor(a)">Professor(a)</option>
+                                <option value="mae/pai">Mãe/Pai</option>
+                                <option value="educador(a)">Educador(a)</option>
+                                <option value="arte-educador(a)">Arte-educador(a)</option>
                                 <option value="outro">Outro</option>
                             </select>
                         </div>
@@ -2401,16 +2401,18 @@
             submitBtn.textContent = 'Enviando...';
 
             const formData = new FormData(leadForm);
+
+            // Formato para SheetDB - as chaves devem corresponder aos cabeçalhos da planilha
             const data = {
                 data: [{
-                    nome: formData.get('nome'),
-                    email: formData.get('email'),
-                    whatsapp: formData.get('whatsapp'),
-                    perfil: formData.get('perfil'),
-                    cidade: formData.get('cidade'),
-                    motivacao: formData.get('motivacao'),
-                    data_inscricao: new Date().toLocaleDateString('pt-BR'),
-                    hora_inscricao: new Date().toLocaleTimeString('pt-BR')
+                    Nome: formData.get('nome'),
+                    Email: formData.get('email'),
+                    WhatsApp: formData.get('whatsapp'),
+                    Perfil: formData.get('perfil') || '',
+                    Cidade: formData.get('cidade') || '',
+                    Motivacao: formData.get('motivacao') || '',
+                    Data: new Date().toLocaleDateString('pt-BR'),
+                    Hora: new Date().toLocaleTimeString('pt-BR')
                 }]
             };
 
@@ -2418,17 +2420,22 @@
                 const response = await fetch('https://sheetdb.io/api/v1/64uj2vs4yhu56', {
                     method: 'POST',
                     headers: {
+                        'Accept': 'application/json',
                         'Content-Type': 'application/json'
                     },
                     body: JSON.stringify(data)
                 });
+
+                const result = await response.json();
+                console.log('Resposta SheetDB:', result);
 
                 if (response.ok) {
                     leadForm.style.display = 'none';
                     formSuccess.classList.add('active');
                     formSuccess.scrollIntoView({ behavior: 'smooth', block: 'center' });
                 } else {
-                    throw new Error('Erro ao enviar');
+                    console.error('Erro SheetDB:', result);
+                    throw new Error(result.error || 'Erro ao enviar');
                 }
             } catch (error) {
                 console.error('Erro:', error);
