@@ -622,9 +622,10 @@
         ======================================== */
         .section-transition {
             position: relative;
-            height: 60px;
+            height: 50px;
             overflow: hidden;
             line-height: 0;
+            margin-top: -1px;
         }
 
         .section-transition svg {
@@ -633,6 +634,14 @@
             display: block;
         }
 
+        /* Transição 1: Cream para Cream (sem mudança, apenas onda sutil) */
+        .section-transition--hero-to-about {
+            background: var(--cream);
+            height: 0;
+            display: none;
+        }
+
+        /* Transição 2: Cream para Amarelo */
         .section-transition--cream-to-yellow {
             background: var(--cream);
         }
@@ -641,18 +650,20 @@
             fill: var(--yellow-pale);
         }
 
+        /* Transição 3: Amarelo para Verde */
         .section-transition--yellow-to-green {
             background: var(--yellow-pale);
-            height: 80px;
+            height: 70px;
         }
 
         .section-transition--yellow-to-green svg {
             fill: var(--green);
         }
 
+        /* Transição 4: Verde para Cream */
         .section-transition--green-to-cream {
             background: var(--green);
-            height: 80px;
+            height: 70px;
         }
 
         .section-transition--green-to-cream svg {
@@ -661,12 +672,12 @@
 
         @media (min-width: 768px) {
             .section-transition {
-                height: 80px;
+                height: 60px;
             }
 
             .section-transition--yellow-to-green,
             .section-transition--green-to-cream {
-                height: 100px;
+                height: 90px;
             }
         }
 
@@ -674,7 +685,7 @@
            SEÇÃO 2: SOBRE A PROFESSORA
         ======================================== */
         .about {
-            padding: var(--spacing-md) 0 var(--spacing-xl) 0;
+            padding: var(--spacing-sm) 0 var(--spacing-lg) 0;
             background: var(--cream);
             position: relative;
         }
@@ -682,7 +693,7 @@
         .about__container {
             display: flex;
             flex-direction: column;
-            gap: var(--spacing-md);
+            gap: var(--spacing-sm);
         }
 
         /* Composição de fotos */
@@ -690,7 +701,7 @@
             position: relative;
             display: flex;
             justify-content: center;
-            padding: var(--spacing-xs) var(--spacing-md);
+            padding: 0 var(--spacing-md);
         }
 
         .about__images-wrapper {
@@ -831,12 +842,42 @@
             color: var(--brown-light);
         }
 
+        /* Tabs Container */
+        .course__tabs-wrapper {
+            text-align: center;
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .course__tabs-hint {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: linear-gradient(135deg, var(--orange), var(--yellow));
+            color: var(--white);
+            padding: 6px 16px;
+            border-radius: var(--radius-xl);
+            font-family: var(--font-heading);
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-top: var(--spacing-sm);
+            animation: gentlePulse 2s ease-in-out infinite;
+            box-shadow: 0 4px 15px rgba(255, 107, 53, 0.3);
+        }
+
+        .course__tabs-hint span {
+            font-size: 1rem;
+        }
+
+        @keyframes gentlePulse {
+            0%, 100% { transform: scale(1); box-shadow: 0 4px 15px rgba(255, 107, 53, 0.3); }
+            50% { transform: scale(1.03); box-shadow: 0 6px 20px rgba(255, 107, 53, 0.5); }
+        }
+
         /* Tabs */
         .course__tabs {
             display: flex;
             justify-content: center;
             gap: var(--spacing-xs);
-            margin-bottom: var(--spacing-lg);
             flex-wrap: wrap;
         }
 
@@ -846,16 +887,32 @@
             font-size: 0.9rem;
             font-weight: 600;
             background: var(--white);
-            border: 3px solid var(--gray-light);
+            border: 3px solid var(--orange-light);
             border-radius: var(--radius-xl);
             cursor: pointer;
             transition: var(--transition-normal);
-            color: var(--brown-light);
+            color: var(--orange);
+            position: relative;
+        }
+
+        .course__tab::after {
+            content: '👆';
+            position: absolute;
+            top: -8px;
+            right: -5px;
+            font-size: 0.9rem;
+            opacity: 0;
+            transition: var(--transition-fast);
+        }
+
+        .course__tab:not(.active):hover::after {
+            opacity: 1;
         }
 
         .course__tab:hover {
-            border-color: var(--orange-light);
-            color: var(--orange);
+            border-color: var(--orange);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(255, 107, 53, 0.2);
         }
 
         .course__tab.active {
@@ -863,6 +920,11 @@
             border-color: var(--orange);
             color: var(--white);
             transform: scale(1.05);
+            box-shadow: 0 4px 15px rgba(255, 107, 53, 0.4);
+        }
+
+        .course__tab.active::after {
+            display: none;
         }
 
         /* Panels */
@@ -1863,15 +1925,6 @@
     </section>
 
     <!-- ========================================
-         TRANSIÇÃO 1: Hero → Sobre
-    ======================================== -->
-    <div class="section-transition section-transition--cream-to-yellow">
-        <svg viewBox="0 0 1440 60" preserveAspectRatio="none">
-            <path d="M0,0 C480,60 960,60 1440,0 L1440,60 L0,60 Z"></path>
-        </svg>
-    </div>
-
-    <!-- ========================================
          SEÇÃO 2: SOBRE A PROFESSORA
     ======================================== -->
     <section class="about" id="sobre">
@@ -1936,14 +1989,19 @@
                 </p>
             </div>
 
-            <!-- Tabs -->
-            <div class="course__tabs reveal">
-                <button class="course__tab active" data-tab="differentials">
-                    Por que é diferente?
-                </button>
-                <button class="course__tab" data-tab="moments">
-                    Momentos com Música
-                </button>
+            <!-- Tabs com destaque -->
+            <div class="course__tabs-wrapper reveal">
+                <div class="course__tabs">
+                    <button class="course__tab active" data-tab="differentials">
+                        Por que é diferente?
+                    </button>
+                    <button class="course__tab" data-tab="moments">
+                        Momentos com Música
+                    </button>
+                </div>
+                <div class="course__tabs-hint">
+                    <span>👆</span> Toque para alternar entre as opções
+                </div>
             </div>
 
             <!-- Conteúdo das tabs -->
