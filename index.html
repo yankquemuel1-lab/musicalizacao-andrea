@@ -28,7 +28,7 @@
             --orange-light: #FF8C5A;
             --yellow: #FFB800;
             --yellow-light: #FFD54F;
-            --yellow-pale: #FFFFFF;
+            --yellow-pale: #FFFCF5;
             --green: #2D9B4E;
             --green-dark: #1E7A3A;
             --green-light: #4CAF50;
@@ -38,7 +38,7 @@
             --pink: #F687B3;
             --cyan: #4FD1C5;
             --white: #FFFFFF;
-            --cream: #FFFFFF;
+            --cream: #FFFDF9;
             --gray-light: #F5F5F5;
             --gray: #757575;
             --brown: #4A3728;
@@ -641,13 +641,58 @@
             display: none;
         }
 
-        /* Transição 2: Cream para Amarelo */
+        /* Transição 2: Cream para Amarelo - Com ornamento */
         .section-transition--cream-to-yellow {
             background: var(--cream);
+            height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .section-transition--cream-to-yellow svg {
             fill: var(--yellow-pale);
+        }
+
+        .section-divider-ornament {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: var(--spacing-sm);
+            padding: var(--spacing-sm) var(--spacing-lg);
+            background: var(--white);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .section-divider-ornament__icon {
+            font-size: 1.5rem;
+        }
+
+        .section-divider-ornament__line {
+            width: 40px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--orange), var(--yellow));
+            border-radius: 2px;
+        }
+
+        @media (min-width: 768px) {
+            .section-transition--cream-to-yellow {
+                height: 100px;
+            }
+
+            .section-divider-ornament {
+                gap: var(--spacing-md);
+                padding: var(--spacing-sm) var(--spacing-xl);
+            }
+
+            .section-divider-ornament__icon {
+                font-size: 2rem;
+            }
+
+            .section-divider-ornament__line {
+                width: 60px;
+            }
         }
 
         /* Transição 3: Amarelo para Verde */
@@ -1029,6 +1074,28 @@
             transition: var(--transition-normal);
             position: relative;
             overflow: hidden;
+            border-left: 4px solid transparent;
+        }
+
+        /* Cores individuais para cada card */
+        .differential-card:nth-child(1) {
+            border-left-color: var(--orange);
+            background: linear-gradient(135deg, #FFF5F0 0%, var(--white) 100%);
+        }
+
+        .differential-card:nth-child(2) {
+            border-left-color: var(--green);
+            background: linear-gradient(135deg, #F0FFF4 0%, var(--white) 100%);
+        }
+
+        .differential-card:nth-child(3) {
+            border-left-color: var(--purple);
+            background: linear-gradient(135deg, #FAF5FF 0%, var(--white) 100%);
+        }
+
+        .differential-card:nth-child(4) {
+            border-left-color: var(--cyan);
+            background: linear-gradient(135deg, #F0FFFF 0%, var(--white) 100%);
         }
 
         .differential-card::before {
@@ -1056,6 +1123,23 @@
             font-size: 2.5rem;
             margin-bottom: var(--spacing-xs);
             display: block;
+        }
+
+        /* Cores dos títulos dos cards */
+        .differential-card:nth-child(1) .differential-card__title {
+            color: var(--orange);
+        }
+
+        .differential-card:nth-child(2) .differential-card__title {
+            color: var(--green);
+        }
+
+        .differential-card:nth-child(3) .differential-card__title {
+            color: var(--purple);
+        }
+
+        .differential-card:nth-child(4) .differential-card__title {
+            color: var(--cyan);
         }
 
         .differential-card__title {
@@ -2033,12 +2117,16 @@
     </section>
 
     <!-- ========================================
-         TRANSIÇÃO 2: Sobre → Curso
+         TRANSIÇÃO 2: Sobre → Curso (com ornamento)
     ======================================== -->
     <div class="section-transition section-transition--cream-to-yellow">
-        <svg viewBox="0 0 1440 60" preserveAspectRatio="none">
-            <path d="M0,30 Q360,60 720,30 T1440,30 L1440,60 L0,60 Z"></path>
-        </svg>
+        <div class="section-divider-ornament">
+            <span class="section-divider-ornament__line"></span>
+            <span class="section-divider-ornament__icon">🎵</span>
+            <span class="section-divider-ornament__icon">✨</span>
+            <span class="section-divider-ornament__icon">🎶</span>
+            <span class="section-divider-ornament__line"></span>
+        </div>
     </div>
 
     <!-- ========================================
